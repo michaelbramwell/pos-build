@@ -15,9 +15,6 @@
         activate();
 
         function activate() {
-//            Using a resolver on all routes or dataservice.ready in every controller
-//            var promises = [getProjects()];
-//            return dataservice.ready(promises).then(function(){
             return getProjects().then(function() {
                 logger.info('Activated Avengers View');
             });
