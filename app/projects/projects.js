@@ -16,13 +16,15 @@
 
         function activate() {
             return getProjects().then(function() {
-                logger.info('Activated Avengers View');
+                logger.info('Activated Projects View');
             });
         }
 
         function getProjects() {
             return dataservice.getProjects().then(function(data) {
                 vm.projects = data;
+                logger.info('got data')
+                console.log(data);
                 return vm.projects;
             });
         }

@@ -11,16 +11,21 @@
         var primePromise;
 
         var service = {
-            getAvengersCast: getProjects,
+            getProjects: getProjects,
             ready: ready
         };
 
         return service;
 
-        function getAvengersCast() {
+        function getProjects() {
+            var path = '/images';
             var cast = [
-                {name: 'Dalkeith', description: 'This is a description'},
-                {name: 'Fremantle', description: 'This is another description'}
+                { name: path + '/fremantle1_0313-078.jpg' },
+                { name: path + '/fremantle1_0312-077.jpg' },
+                { name: path + '/fremantle1_0311-076.jpg' },
+                { name: path + '/fremantle1_0273-055.jpg' },
+                { name: path + '/fremantle1_0270-054.jpg' },
+                { name: path + '/fremantle1_0266-052.jpg' }
             ];
             return $q.when(cast);
         }

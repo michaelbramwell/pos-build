@@ -15,16 +15,12 @@
     function getRoutes() {
         return [
             {
-                url: '/projects',
+                url: '/',
                 config: {
                     templateUrl: 'app/projects/projects.html',
                     controller: 'Projects',
                     controllerAs: 'vm',
-                    title: 'projects',
-                    settings: {
-                        nav: 2,
-                        content: '<i class="fa fa-lock"></i> Projects'
-                    }
+                    title: 'projects'
                 }
             }
         ];
