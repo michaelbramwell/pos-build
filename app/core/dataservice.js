@@ -12,22 +12,41 @@
 
         var service = {
             getProjects: getProjects,
+            getPath: getPath,
             ready: ready
         };
 
         return service;
+        
+        function getPath()
+        {
+            return '/images/projects/';
+        }
 
         function getProjects() {
-            var path = '/images';
-            var cast = [
+            
+            /*var projects = [
                 { name: path + '/fremantle1_0313-078.jpg' },
                 { name: path + '/fremantle1_0312-077.jpg' },
                 { name: path + '/fremantle1_0311-076.jpg' },
                 { name: path + '/fremantle1_0273-055.jpg' },
                 { name: path + '/fremantle1_0270-054.jpg' },
                 { name: path + '/fremantle1_0266-052.jpg' }
-            ];
-            return $q.when(cast);
+            ];*/
+            
+            return $http.get(this.getPath());//.then(function(response){
+                //var arr = response.data.match(/href=".+"/g);
+                             
+                /*
+                arr.forEach(function(element, index) {
+                    projects.push(path + element.replace('href="', '').replace('"', ''));
+                });
+                */
+          
+            //});
+            
+            //return projects;
+            //return $q.when(projects);
         }
 
         function prime() {
