@@ -12,10 +12,7 @@
     function routehelperConfig() {
         /* jshint validthis:true */
         this.config = {
-            // These are the properties we need to set
-            // $routeProvider: undefined
-            // docTitle: ''
-            // resolveAlways: {ready: function(){ } }
+            
         };
 
         this.$get = function() {

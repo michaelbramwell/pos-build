@@ -33,11 +33,8 @@
         routehelperConfigProvider.config.docTitle = 'NG-Modular: ';
         var resolveAlways = { /* @ngInject */
             ready: function(dataservice) {
-                return dataservice.ready();
+                //return dataservice.ready();
             }
-            // ready: ['dataservice', function (dataservice) {
-            //    return dataservice.ready();
-            // }]
         };
         routehelperConfigProvider.config.resolveAlways = resolveAlways;
 

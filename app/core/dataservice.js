@@ -24,29 +24,7 @@
         }
 
         function getProjects() {
-            
-            /*var projects = [
-                { name: path + '/fremantle1_0313-078.jpg' },
-                { name: path + '/fremantle1_0312-077.jpg' },
-                { name: path + '/fremantle1_0311-076.jpg' },
-                { name: path + '/fremantle1_0273-055.jpg' },
-                { name: path + '/fremantle1_0270-054.jpg' },
-                { name: path + '/fremantle1_0266-052.jpg' }
-            ];*/
-            
-            return $http.get(this.getPath());//.then(function(response){
-                //var arr = response.data.match(/href=".+"/g);
-                             
-                /*
-                arr.forEach(function(element, index) {
-                    projects.push(path + element.replace('href="', '').replace('"', ''));
-                });
-                */
-          
-            //});
-            
-            //return projects;
-            //return $q.when(projects);
+            return $http.get(this.getPath());
         }
 
         function prime() {

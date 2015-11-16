@@ -7,23 +7,20 @@
         .directive('backgroundImage', backgroundImage);
 
     /* @ngInject */
-    function Projects(dataservice, logger) {
+    function Projects(dataservice, logger, common) {
         /*jshint validthis: true */
         var vm = this;
         vm.projects = [];
         vm.title = 'Projects';
 
-        activate();
+        init();
 
-        function activate() {
-            return getProjects().then(function() {
-                logger.info('Activated Projects View');
-            });
+        function init() {
+            return getProjects()
         }
 
         function getProjects() {
             return dataservice.getProjects().then(function(response) {
-                console.log(response) 
                 var projects = [];
                 var arr = response.data.match(/href=".+"/g);
                 console.log(arr);
@@ -31,7 +28,7 @@
                     projects.push({ name: dataservice.getPath() + element.replace('href="', '').replace('"', '')}); 
                 });
                 
-                vm.projects = projects;
+                vm.projects = common.randomize(projects);
                 logger.info('got data');
                 console.log(projects);
                 return vm.projects;
@@ -52,14 +49,19 @@
     function style(scope, element)
     {
         var delay = 0;
-        console.log(scope.$index);
-        if(scope.$index > 0)
-        {
+        if(scope.$index > 0) {
             delay = 6 * scope.$index;
         }
         
-        element
-            .css('background-image', 'url(' + scope.project.name + ')')
-            .css('animation-delay', delay + 's');
+        if(scope.$index < 3) {
+            element.css('background-image', 'url(' + scope.project.name + ')')    
+        }else
+        {
+            element.attr('data-src', scope.project.name);
+        }
+        
+        element.css('animation-delay', delay + 's');
+            
+            
     }
 })();
