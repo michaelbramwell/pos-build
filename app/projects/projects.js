@@ -3,15 +3,15 @@
 
     angular
         .module('app.projects')
-        .controller('Projects', Projects)
-        .directive('backgroundImage', backgroundImage);
+        .controller('Projects', Projects);
 
     /* @ngInject */
-    function Projects(dataservice, logger, common) {
+    function Projects(dataservice, logger, common, $interval) {
         /*jshint validthis: true */
         var vm = this;
         vm.projects = [];
         vm.title = 'Projects';
+        vm.animationTime = 0;
 
         init();
 
@@ -23,45 +23,19 @@
             return dataservice.getProjects().then(function(response) {
                 var projects = [];
                 var arr = response.data.match(/href=".+"/g);
-                console.log(arr);
                 arr.forEach(function(element, index) {
                     projects.push({ name: dataservice.getPath() + element.replace('href="', '').replace('"', '')}); 
                 });
                 
-                vm.projects = common.randomize(projects);
-                logger.info('got data');
-                console.log(projects);
-                return vm.projects;
+                var randomized = common.randomize(projects);
+                var rIdx = 0;
+                vm.animationTime = randomized.length * 8;
+                
+                $interval(function(){
+                    vm.projects.push(randomized[rIdx]); 
+                    rIdx++;                   
+                }, 8000, (randomized.length - 1));
             });
         }
-    }
-    
-    function backgroundImage()
-    {
-        var directive = {
-            restrict: 'A',
-            link: style
-        };
-        
-        return directive;
-    }
-    
-    function style(scope, element)
-    {
-        var delay = 0;
-        if(scope.$index > 0) {
-            delay = 6 * scope.$index;
-        }
-        
-        if(scope.$index < 3) {
-            element.css('background-image', 'url(' + scope.project.name + ')')    
-        }else
-        {
-            element.attr('data-src', scope.project.name);
-        }
-        
-        element.css('animation-delay', delay + 's');
-            
-            
     }
 })();

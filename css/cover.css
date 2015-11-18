@@ -164,46 +164,17 @@ body {
     background-repeat: none;
     opacity: 0;
     z-index: 0;
-	 -webkit-backface-visibility: hidden;
-    animation: imageAnimation 36s linear infinite 0s; 
+    /* animation: imageAnimation 42s linear infinite 0s; */
 }
-.cb-slideshow li div { 
-    z-index: 1000;
-    position: absolute;
-    bottom: 30px;
-    left: 0px;
-    width: 100%;
-    text-align: center;
-    opacity: 0;
-    color: #fff;
-    animation: titleAnimation 36s linear infinite 0s; 
-}
-.cb-slideshow li div h3 { 
-    font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;
-    font-size: 240px;
-    padding: 0;
-    line-height: 200px; 
-}
-
 
 /* Animation for the slideshow images */
 @keyframes imageAnimation { 
-    0% { opacity: 0;
-    animation-timing-function: ease-in; }
-    8% { opacity: 1;
-         animation-timing-function: ease-out; }
-    17% { opacity: 1 }
-    25% { opacity: 0 }
+    0% { opacity: 0; }
+    1% { opacity: 1;}
+   3% { opacity: 0 }
     100% { opacity: 0 }
 }
-/* Animation for the title */
-@keyframes titleAnimation { 
-    0% { opacity: 0 }
-    8% { opacity: 1 }
-    17% { opacity: 1 }
-    19% { opacity: 0 }
-    100% { opacity: 0 }
-}
+
 /* Show at least something when animations not supported */
 .no-cssanimations .cb-slideshow li span{
 	opacity: 1;

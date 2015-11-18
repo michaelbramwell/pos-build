@@ -1,3 +1,5 @@
 <ul class="cb-slideshow">
-	<li data-ng-repeat="project in vm.projects"><span background-image></span><div><h3></h3></div></li>
+	<li data-ng-repeat="project in vm.projects">
+		<span ng-style="{ 'background-image': 'url( ' + project.name + ')', 'animation': 'imageAnimation ' + vm.animationTime + 's 8s infinite' }"></span>
+	</li>
 </ul>
