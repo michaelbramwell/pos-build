@@ -29,23 +29,23 @@
   </head>
 
   <body id="page">
-    <div data-ng-view></div>
     
     <div class="site-wrapper">
         <div class="site-wrapper-inner">
-            <div class="cover-container">
-                <div class="masthead clearfix">
-                    <div class="inner">
-                        <h3 class="masthead-brand">Positiva Building</h3>
-                        <nav>
-                            <ul class="nav masthead-nav">
-                                <li><a href="tel://+61417908470">+61 417 908 470</a></li>
-                                <li><a href="mailto:nigel@positiva.com.au">@positiva.com.au</a></li>
-                            </ul>
-                        </nav>            
-                    </div>
+            <div class="masthead clearfix">
+                <div class="inner">
+                    <h3 class="masthead-brand">Positiva Building</h3>
+                    <nav>
+                        <ul class="nav masthead-nav">
+                            <li><a href="tel://+61417908470">+61 417 908 470</a></li>
+                            <li><a href="mailto:nigel@positiva.com.au">@positiva.com.au</a></li>
+                        </ul>
+                    </nav>            
                 </div>
             </div>
+            
+            <div data-ng-view></div>
+            
         </div>
     </div>
     
@@ -82,6 +82,14 @@
     <script src="/app/projects/projects.module.js"></script>
     <script src="/app/projects/config.route.js"></script>
     <script src="/app/projects/projects.js"></script>
+    
+    <script type="text/javascript">
+        $(function(){
+            var carousel = $('#carousel');
+            carousel.carousel(); 
+        });
+
+    </script>
     
   </body>
 </html>

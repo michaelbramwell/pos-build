@@ -1,5 +1,18 @@
-<ul class="cb-slideshow">
-	<li data-ng-repeat="project in vm.projects">
-		<span ng-style="{ 'background-image': 'url( ' + project.name + ')', 'animation': 'imageAnimation ' + vm.animationTime + 's 8s infinite' }"></span>
-	</li>
-</ul>
+<div id="carousel" class="carousel slide" data-ride="carousel">
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div data-ng-repeat="project in vm.projects" ng-class="{ 'active' : $first}" class="item">
+      <img data-ng-src="{{project.name}}" class="item-image">
+      <div class="carousel-caption"></div>
+    </div>
+  </div>
+  
+  <!-- Controls -->
+  <a class="left carousel-control" href="" ng-click="vm.slide('prev')" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    </a>
+    <a class="right carousel-control" ng-click="slide('next')" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    </a>
+</div>

@@ -11,31 +11,29 @@
         var vm = this;
         vm.projects = [];
         vm.title = 'Projects';
-        vm.animationTime = 0;
 
         init();
 
-        function init() {
-            return getProjects()
+        function init() {            
+            getProjects()
         }
 
         function getProjects() {
             return dataservice.getProjects().then(function(response) {
                 var projects = [];
                 var arr = response.data.match(/href=".+"/g);
+                
                 arr.forEach(function(element, index) {
                     projects.push({ name: dataservice.getPath() + element.replace('href="', '').replace('"', '')}); 
                 });
                 
-                var randomized = common.randomize(projects);
-                var rIdx = 0;
-                vm.animationTime = randomized.length * 8;
-                
-                $interval(function(){
-                    vm.projects.push(randomized[rIdx]); 
-                    rIdx++;                   
-                }, 8000, (randomized.length - 1));
+                vm.projects = common.randomize(projects);                
             });
         }
+        
+        vm.slide = function (dir) {
+            console.log(dir);
+            $('#carousel').carousel(dir);
+        };
     }
 })();
