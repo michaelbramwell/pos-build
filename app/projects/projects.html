@@ -2,8 +2,7 @@
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
-    <div data-ng-repeat="project in vm.projects" ng-class="{ 'active' : $first}" class="item">
-      <img data-ng-src="{{project.name}}" class="item-image">
+    <div data-ng-repeat="project in vm.projects" data-ng-style="{'background-image': 'url(' + project.name + ')'}" ng-class="{ 'active' : $first}" class="item">
       <div class="carousel-caption"></div>
     </div>
   </div>
@@ -12,7 +11,7 @@
   <a class="left carousel-control" href="" ng-click="vm.slide('prev')" role="button" data-slide="prev">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
     </a>
-    <a class="right carousel-control" ng-click="slide('next')" role="button" data-slide="next">
+    <a class="right carousel-control" ng-click="vm.slide('next')" role="button" data-slide="next">
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
     </a>
 </div>

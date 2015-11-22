@@ -125,14 +125,15 @@ body {
 }
 
 .carousel {
-  margin-top: 70px;
+  padding-top: 70px;
 }
 
-.item-image {
-  width: 100%;
-  height: 100%;  
+.item {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
 }
-
 
 /*
  * Footer

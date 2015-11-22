@@ -6,7 +6,7 @@
         .controller('Projects', Projects);
 
     /* @ngInject */
-    function Projects(dataservice, logger, common, $interval) {
+    function Projects(dataservice, logger, common, $interval, $timeout) {
         /*jshint validthis: true */
         var vm = this;
         vm.projects = [];
@@ -16,6 +16,19 @@
 
         function init() {            
             getProjects()
+            
+            $(function(){
+                var carousel = $('#carousel');
+                carousel.carousel(); 
+                
+                $timeout(function(){
+                    carousel.find('.item').height($(window).height() - $('.masthead').height());                                        
+                }, 500);
+                
+                $interval(function(){
+                    $('#carousel').carousel('next');
+                }, 10000);
+            }); 
         }
 
         function getProjects() {
@@ -32,7 +45,6 @@
         }
         
         vm.slide = function (dir) {
-            console.log(dir);
             $('#carousel').carousel(dir);
         };
     }
