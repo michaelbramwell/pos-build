@@ -25,8 +25,24 @@
                     carousel.find('.item').height($(window).height() - $('.masthead').height());                                        
                 }, 500);
                 
+                var item = 0;
                 $interval(function(){
                     $('#carousel').carousel('next');
+                    console.log(vm.projects[item]);
+                    
+                    // pre-load next 3 images
+                    for(var i = (item + 3); i < (item + 6); i++) {
+                        
+                        if(vm.projects[i]) {                            
+                            var imageObj = new Image();
+                            imageObj.onload = function(){
+                                console.log(this);
+                            };
+                            imageObj.src = vm.projects[i].name;                                                
+                        }
+                    }
+                    
+                    item++;
                 }, 10000);
             }); 
         }
@@ -40,7 +56,19 @@
                     projects.push({ name: dataservice.getPath() + element.replace('href="', '').replace('"', '')}); 
                 });
                 
-                vm.projects = common.randomize(projects);                
+                vm.projects = common.randomize(projects);      
+                
+                // pre-load initial 3 images
+                for(var i = 0; i < 3; i++) {
+                    console.log(i);
+                    if(vm.projects[i]) {
+                        var imageObj = new Image();
+                        imageObj.onload = function(){
+                            console.log(this);
+                        };
+                        imageObj.src = vm.projects[i].name;                                                
+                    }
+                }
             });
         }
         
