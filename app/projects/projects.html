@@ -2,7 +2,10 @@
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
-    <div data-ng-repeat="project in vm.projects" data-ng-style="{'background-image': 'url(' + project.name + ')'}" ng-class="{ 'active' : $first}" class="item">
+    <!--
+      data-ng-style="{'background-image': 'url(' + project.source + ')'}"
+     -->
+    <div data-ng-repeat="project in vm.projects" data-ng-attr-source="{{project.source}}" ng-class="{ 'active' : $first}" class="item">
       <div class="carousel-caption"></div>
     </div>
   </div>
@@ -15,3 +18,5 @@
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
     </a>
 </div>
+
+<div class="mastfoot"><div class="inner"><h4>Positiva {{vm.currentName}}, Western Australia</h4></div></div>

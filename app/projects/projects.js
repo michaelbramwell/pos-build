@@ -11,10 +11,13 @@
         var vm = this;
         vm.projects = [];
         vm.title = 'Projects';
+        vm.currentName = '';
 
         init();
-
-        function init() {            
+        
+        function init() {    
+            setUpSliderHandlers();
+                    
             getProjects()
             
             $(function(){
@@ -24,51 +27,53 @@
                 $timeout(function(){
                     carousel.find('.item').height($(window).height() - $('.masthead').height());                                        
                 }, 500);
-                
-                var item = 0;
-                $interval(function(){
-                    $('#carousel').carousel('next');
-                    console.log(vm.projects[item]);
-                    
-                    // pre-load next 3 images
-                    for(var i = (item + 3); i < (item + 6); i++) {
-                        
-                        if(vm.projects[i]) {                            
-                            var imageObj = new Image();
-                            imageObj.onload = function(){
-                                console.log(this);
-                            };
-                            imageObj.src = vm.projects[i].name;                                                
-                        }
-                    }
-                    
-                    item++;
-                }, 10000);
             }); 
         }
 
         function getProjects() {
             return dataservice.getProjects().then(function(response) {
-                var projects = [];
-                var arr = response.data.match(/href=".+"/g);
-                
-                arr.forEach(function(element, index) {
-                    projects.push({ name: dataservice.getPath() + element.replace('href="', '').replace('"', '')}); 
-                });
-                
+                var projects = response.data;
                 vm.projects = common.randomize(projects);      
                 
                 // pre-load initial 3 images
                 for(var i = 0; i < 3; i++) {
-                    console.log(i);
+                    
                     if(vm.projects[i]) {
+                        var fwdNode = $($('#carousel').find('.item')).eq(i);
                         var imageObj = new Image();
+                        console.log(fwdNode);
                         imageObj.onload = function(){
-                            console.log(this);
+                            console.log($('.item').eq(i))
+                            console.log(fwdNode.attr('source'));
+                            fwdNode.css({'background-image': 'url(' + fwdNode.attr('source') + ')'});
                         };
-                        imageObj.src = vm.projects[i].name;                                                
+                    
+                        imageObj.src = vm.projects[i].source;                                                
                     }
                 }
+            });
+        }
+        
+        function setUpSliderHandlers() {
+            
+            $('#carousel').on('slide.bs.carousel', function () {
+                var idx = $(this).find('.active').index();
+                
+                vm.currentName = vm.projects[idx].name;    
+                
+                // onload of image add as background to slide
+                var fwdNode = $($(this).find('.item')).eq(idx + 3);
+                
+                if(fwdNode.length > 0) {
+                    var imageObj = new Image();
+        
+                    imageObj.onload = function(){
+                        fwdNode.css({'background-image': 'url(' + fwdNode.attr('source') + ')'});
+                    };
+                
+                    imageObj.src = vm.projects[idx + 3].source;    
+                }
+                 
             });
         }
         

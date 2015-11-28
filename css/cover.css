@@ -13,6 +13,10 @@ h3 {
   font-size: 36px;
 }
 
+h4 {
+  color: #fff;
+}
+
 /* Custom default button */
 .btn-default,
 .btn-default:hover,
@@ -64,10 +68,6 @@ body {
   padding: 0 30px 0 30px;
 }
 
-
-/*
- * Header
- */
 .masthead-brand {
   margin-top: 10px;
   margin-bottom: 20px;
@@ -102,15 +102,13 @@ body {
   border-bottom-color: #fff;
 }
 
-@media (min-width: 768px) {
-  .masthead-brand {
-    float: left;
-  }
-  .masthead-nav {
-    float: right;
-  }
+.masthead-brand {
+  float: left;
 }
 
+.masthead-nav {
+  float: right;
+}
 
 /*
  * Cover
@@ -125,7 +123,7 @@ body {
 }
 
 .carousel {
-  padding-top: 70px;
+  padding-top: 6%;
 }
 
 .carousel .item {
@@ -157,28 +155,12 @@ body {
   transform: translate3d(0, 0, 0);
 }
 
-/*
- * Footer
- */
-
 .mastfoot {
   color: #999; /* IE8 proofing */
   color: rgba(255,255,255,.5);
 }
 
-@media screen and (max-width: 1140px) { 
-    .cb-slideshow li div h3 { font-size: 140px }
-}
-@media screen and (max-width: 600px) { 
-    .cb-slideshow li div h3 { font-size: 80px }
-}
-
-/*
- * Affix and center
- */
-
-@media (min-width: 768px) {
-  /* Pull out the header and footer */
+/* Pull out the header and footer */
   .masthead {
     position: fixed;
     top: 0;
@@ -195,16 +177,17 @@ body {
   .masthead,
   .mastfoot,
   .cover-container {
-    width: 100%; /* Must be percentage or pixels for horizontal alignment */
+    width: 100%; 
   }
-}
 
-@media (min-width: 992px) {
-  .masthead,
+.masthead,
   .mastfoot,
   .cover-container {
     width: 100%;
     background: rgba(18, 45, 68, 0.9);
     height: 70px;
   }
-}
+  
+  .mastfoot {
+    height: 6%;
+  }

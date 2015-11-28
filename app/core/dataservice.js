@@ -20,7 +20,7 @@
         
         function getPath()
         {
-            return '/images/projects/';
+            return '/app/data/data.json';
         }
 
         function getProjects() {
