@@ -6,7 +6,7 @@
         .controller('Projects', Projects);
 
     /* @ngInject */
-    function Projects(dataservice, logger, common, $interval, $timeout) {
+    function Projects(dataservice, logger, common, $interval, $timeout, $scope) {
         /*jshint validthis: true */
         var vm = this;
         vm.projects = [];
@@ -25,7 +25,17 @@
                 carousel.carousel(); 
                 
                 $timeout(function(){
-                    carousel.find('.item').height($(window).height() - $('.masthead').height());                                        
+                    // resize image container to fullscreen
+                    carousel.find('.item').height($(window).height() - $('.masthead').height()); 
+                    // load first item
+                    var currImage = $(carousel.find('.item').eq(0));
+                    
+                    if(currImage.length > 0) {
+                        currImage.css({'background-image': 'url(' + currImage.attr('source') + ')'});                    
+                        vm.currentName = currImage.attr('name') 
+                    
+                        $scope.$apply();
+                    }                    
                 }, 500);
             }); 
         }
@@ -33,24 +43,14 @@
         function getProjects() {
             return dataservice.getProjects().then(function(response) {
                 var projects = response.data;
-                vm.projects = common.randomize(projects);      
+                vm.projects = common.randomize(projects);
                 
-                // pre-load initial 3 images
-                for(var i = 0; i < 3; i++) {
-                    
-                    if(vm.projects[i]) {
-                        var fwdNode = $($('#carousel').find('.item')).eq(i);
-                        var imageObj = new Image();
-                        console.log(fwdNode);
-                        imageObj.onload = function(){
-                            console.log($('.item').eq(i))
-                            console.log(fwdNode.attr('source'));
-                            fwdNode.css({'background-image': 'url(' + fwdNode.attr('source') + ')'});
-                        };
-                    
-                        imageObj.src = vm.projects[i].source;                                                
-                    }
-                }
+                // preload first image, it may or may not execute before the first item has loaded
+                if(vm.projects.length > 0) {
+                    var imageObj = new Image();        
+                    imageObj.onload = function(){};            
+                    imageObj.src = vm.projects[0].source;
+                }                  
             });
         }
         
@@ -60,9 +60,9 @@
                 var idx = $(this).find('.active').index();
                 
                 vm.currentName = vm.projects[idx].name;    
-                
+                                
                 // onload of image add as background to slide
-                var fwdNode = $($(this).find('.item')).eq(idx + 3);
+                var fwdNode = $($(this).find('.item')).eq(idx + 1);
                 
                 if(fwdNode.length > 0) {
                     var imageObj = new Image();
@@ -71,10 +71,13 @@
                         fwdNode.css({'background-image': 'url(' + fwdNode.attr('source') + ')'});
                     };
                 
-                    imageObj.src = vm.projects[idx + 3].source;    
+                    imageObj.src = vm.projects[idx + 1].source;    
                 }
+                
+                $scope.$apply();
                  
             });
+            
         }
         
         vm.slide = function (dir) {
