@@ -58,11 +58,16 @@
             
             $('#carousel').on('slide.bs.carousel', function () {
                 var idx = $(this).find('.active').index();
-                
+                console.log(idx);
                 vm.currentName = vm.projects[idx].name;    
                                 
                 // onload of image add as background to slide
                 var fwdNode = $($(this).find('.item')).eq(idx + 1);
+                var backwdNode = $($(this).find('.item')).eq(idx - 1);
+                
+                if(backwdNode.length > 0 && backwdNode.css('background-image') === 'none') {         
+                    backwdNode.css({'background-image': 'url(' + backwdNode.attr('source') + ')'});
+                }
                 
                 if(fwdNode.length > 0) {
                     var imageObj = new Image();
@@ -72,12 +77,8 @@
                     };
                 
                     imageObj.src = vm.projects[idx + 1].source;    
-                }
-                
-                $scope.$apply();
-                 
+                }  
             });
-            
         }
         
         vm.slide = function (dir) {
