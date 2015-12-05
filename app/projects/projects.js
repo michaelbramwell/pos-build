@@ -58,7 +58,7 @@
             
             $('#carousel').on('slide.bs.carousel', function () {
                 var idx = $(this).find('.active').index();
-                console.log(idx);
+                
                 vm.currentName = vm.projects[idx].name;    
                                 
                 // onload of image add as background to slide
