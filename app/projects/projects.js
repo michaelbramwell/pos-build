@@ -13,31 +13,31 @@
         vm.title = 'Projects';
         vm.currentName = '';
 
-        init();
+        $(function(){
+            init();                        
+        });
         
         function init() {    
             setUpSliderHandlers();
                     
             getProjects()
             
-            $(function(){
-                var carousel = $('#carousel');
+            var carousel = $('#carousel');
                 carousel.carousel(); 
                 
-                $timeout(function(){
-                    // resize image container to fullscreen
-                    carousel.find('.item').height($(window).height() - $('.masthead').height()); 
-                    // load first item
-                    var currImage = $(carousel.find('.item').eq(0));
+            $timeout(function(){
+                // resize image container to fullscreen
+                carousel.find('.item').height($(window).height() - $('.masthead').height()); 
+                // load first item
+                var currImage = $(carousel.find('.item').eq(0));
+                
+                if(currImage.length > 0) {
+                    currImage.css({'background-image': 'url(' + currImage.attr('source') + ')'});                    
+                    vm.currentName = currImage.attr('name') 
                     
-                    if(currImage.length > 0) {
-                        currImage.css({'background-image': 'url(' + currImage.attr('source') + ')'});                    
-                        vm.currentName = currImage.attr('name') 
-                    
-                        $scope.$apply();
-                    }                    
-                }, 500);
-            }); 
+                    $scope.$apply();
+                }                    
+            }, 500);
         }
 
         function getProjects() {
@@ -56,29 +56,42 @@
         
         function setUpSliderHandlers() {
             
-            $('#carousel').on('slide.bs.carousel', function () {
+            $('#carousel').on('slid.bs.carousel', function (e, f) {
                 var idx = $(this).find('.active').index();
-                
+                console.log(e);
+                console.log(f);
                 vm.currentName = vm.projects[idx].name;    
                                 
                 // onload of image add as background to slide
-                var fwdNode = $($(this).find('.item')).eq(idx + 1);
+                var fwdNode = $($(this).find('.item')).eq(idx);
                 var backwdNode = $($(this).find('.item')).eq(idx - 1);
                 
                 if(backwdNode.length > 0 && backwdNode.css('background-image') === 'none') {         
                     backwdNode.css({'background-image': 'url(' + backwdNode.attr('source') + ')'});
                 }
                 
-                if(fwdNode.length > 0) {
+                if(fwdNode.length > 0) {                    
+                    preload(fwdNode, vm.projects);
+                }  
+                
+                setTimeout(function() { $scope.$apply(); }, 0);
+            });
+        }
+        
+        function preload(imgEle, imgArrObj) {
+            $('#carousel').find('.item').height($(window).height() - $('.masthead').height()); 
+            
+            for(var i = 0; i < 3; i++) {
+                if(imgArrObj[i]) {
                     var imageObj = new Image();
         
                     imageObj.onload = function(){
-                        fwdNode.css({'background-image': 'url(' + fwdNode.attr('source') + ')'});
+                        imgEle.css({'background-image': 'url(' + imgEle.attr('source') + ')'});
                     };
                 
-                    imageObj.src = vm.projects[idx + 1].source;    
-                }  
-            });
+                    imageObj.src = imgArrObj[i].source;
+                }                 
+            }            
         }
         
         vm.slide = function (dir) {
