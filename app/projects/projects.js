@@ -18,26 +18,8 @@
         });
         
         function init() {    
-            setUpSliderHandlers();
-                    
-            getProjects()
-            
-            var carousel = $('#carousel');
-                carousel.carousel(); 
-                
-            $timeout(function(){
-                // resize image container to fullscreen
-                carousel.find('.item').height($(window).height() - $('.masthead').height()); 
-                // load first item
-                var currImage = $(carousel.find('.item').eq(0));
-                
-                if(currImage.length > 0) {
-                    currImage.css({'background-image': 'url(' + currImage.attr('source') + ')'});                    
-                    vm.currentName = currImage.attr('name') 
-                    
-                    $scope.$apply();
-                }                    
-            }, 500);
+            setUpSliderHandlers();                    
+            getProjects();            
         }
 
         function getProjects() {
@@ -47,49 +29,65 @@
                 
                 // preload first image, it may or may not execute before the first item has loaded
                 if(vm.projects.length > 0) {
-                    var imageObj = new Image();        
-                    imageObj.onload = function(){};            
-                    imageObj.src = vm.projects[0].source;
+                    
+                    var carousel = $('#carousel');
+                    carousel.carousel({ interval: 20000 }); 
+                    
+                    $timeout(function() {
+                        // resize image container to fullscreen
+                        carousel.find('.item').height($(window).height() - $('.masthead').height()); 
+                        // load first item
+                        var currImages = $(carousel.find('.item'));
+                        var currImage = currImages.eq(0);
+                        
+                        if(currImage.length > 0) {                  
+                            vm.currentName = currImage.attr('name');                            
+                            preload(currImages, vm.projects, 0);                            
+                            $scope.$apply();
+                        }                    
+                    }, 500);
                 }                  
             });
         }
         
         function setUpSliderHandlers() {
             
-            $('#carousel').on('slid.bs.carousel', function (e, f) {
+            $('#carousel').on('slid.bs.carousel', function () {                
                 var idx = $(this).find('.active').index();
-                console.log(e);
-                console.log(f);
                 vm.currentName = vm.projects[idx].name;    
                                 
                 // onload of image add as background to slide
-                var fwdNode = $($(this).find('.item')).eq(idx);
+                var fwdNodes = $($(this).find('.item'));
                 var backwdNode = $($(this).find('.item')).eq(idx - 1);
                 
                 if(backwdNode.length > 0 && backwdNode.css('background-image') === 'none') {         
                     backwdNode.css({'background-image': 'url(' + backwdNode.attr('source') + ')'});
                 }
                 
-                if(fwdNode.length > 0) {                    
-                    preload(fwdNode, vm.projects);
+                if(fwdNodes.length > 0) {                    
+                    preload(fwdNodes, vm.projects, idx);
                 }  
                 
                 setTimeout(function() { $scope.$apply(); }, 0);
             });
         }
         
-        function preload(imgEle, imgArrObj) {
-            $('#carousel').find('.item').height($(window).height() - $('.masthead').height()); 
+        function preload(imgEles, imgArrObj, currentIdx) {
             
-            for(var i = 0; i < 3; i++) {
-                if(imgArrObj[i]) {
+            for(var i = 0; i < 5; i++) {
+                
+                if(imgArrObj[currentIdx + i]) {
+                    var currImage = imgEles.eq(currentIdx + i);
                     var imageObj = new Image();
-        
+                    
                     imageObj.onload = function(){
-                        imgEle.css({'background-image': 'url(' + imgEle.attr('source') + ')'});
+                        console.log($(this).prop('src'));
                     };
                 
-                    imageObj.src = imgArrObj[i].source;
+                    imageObj.src = imgArrObj[currentIdx + i].source;
+                    
+                    currImage.css({"background-image": 'url(' + currImage.attr('source') + ')'});
+                    
                 }                 
             }            
         }
