@@ -25,7 +25,13 @@
         function getProjects() {
             return dataservice.getProjects().then(function(response) {
                 var projects = response.data;
+                var loader = {
+                    "name": "",
+                    "source": "/images/projects/loader.jpg"
+                };          
+                
                 vm.projects = common.randomize(projects);
+                vm.projects.unshift(loader);
                 
                 // preload first image, it may or may not execute before the first item has loaded
                 if(vm.projects.length > 0) {
@@ -45,7 +51,7 @@
                             preload(currImages, vm.projects, 0);                            
                             $scope.$apply();
                         }                    
-                    }, 500);
+                    }, 100);
                 }                  
             });
         }
@@ -54,7 +60,7 @@
             
             $('#carousel').on('slid.bs.carousel', function () {                
                 var idx = $(this).find('.active').index();
-                vm.currentName = vm.projects[idx].name;    
+                vm.currentName = 'Positiva in ' + vm.projects[idx].name + ', Western Australia';    
                                 
                 // onload of image add as background to slide
                 var fwdNodes = $($(this).find('.item'));
@@ -82,6 +88,12 @@
                     
                     imageObj.onload = function(){
                         console.log($(this).prop('src'));
+                        
+                        if($(this).prop('src').indexOf('loader') !== -1) {
+                            setTimeout(function(){
+                                $('#carousel').carousel('next');                                                                
+                            }, 2000);
+                        }
                     };
                 
                     imageObj.src = imgArrObj[currentIdx + i].source;
